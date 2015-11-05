@@ -40,8 +40,8 @@
 -(void)testlogin
 {
     LoginController *login = [LoginController alloc];
-    Boolean *boolean = [login login:@"552115052" password:@"552115052"];
-    XCTAssertTrue(boolean, @"Pass");
+    Boolean *boolean = [login login:@"test" password:@"test1"];
+    XCTAssertTrue(boolean, @"OK");
 }
 
 @end

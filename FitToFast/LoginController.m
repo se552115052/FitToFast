@@ -79,17 +79,16 @@ NSString *session_username = @"";
                 
                 
                 
-                if([result isEqualToString:@"Correct"]){
-                    NSLog(@"result %@",result);
+                if([result isEqualToString:@"OK"]){
+                    NSLog(@"result from the webservice %@",result);
                 
                     //session
                     
-                    NSLog(@"usrname post %@",username);
+                   // NSLog(@"usrname post %@",username);
                     
                     NSUserDefaults *session = [NSUserDefaults standardUserDefaults];
                     [session setObject:username forKey:@"session_username"];
                     
-                    NSLog(@"usrname session post %@",session);
 
                     
                     
