@@ -91,7 +91,7 @@ NSString *shirt3;
         gender = @"Female";
     }
     
-    NSLog(@"genderFromServerololololo %@",gender);
+//    NSLog(@"genderFromServer %@",gender);
     
   }
 
@@ -100,36 +100,62 @@ NSString *shirt3;
 
         if (button.tag == 1) {
                 if([gender isEqualToString:@"Male"]){
+                    
                     typeClothes =@"shortshirtMale";
+                    defaultShirt = [NSString stringWithFormat:@"%@%@_%@.dae",@"S",@"XS",sizeClothes];
+                    
                 }else if([gender isEqualToString:@"Female"]){
-                    typeClothes =@"shortshirtFemale";
+                    
+                    typeClothes =@"shortshirtMale";
+                    defaultShirt = [NSString stringWithFormat:@"%@%@_%@.dae",@"S",@"XS",sizeClothes];
                 }
             NSLog(@"typeclothes  %@",typeClothes);
+            sceneTshirt = [SCNScene sceneNamed:defaultShirt];
             }
     
     else if (button.tag == 2) {
         if([gender isEqualToString:@"Male"]){
+            
                     typeClothes =@"tshirtMale";
+                    defaultShirt = [NSString stringWithFormat:@"%@%@_%@.dae",@"T",@"XS",sizeClothes];
+
                 }else if([gender isEqualToString:@"Female"]){
+                    
                     typeClothes =@"tshirtFemale";
+                    defaultShirt = [NSString stringWithFormat:@"%@%@_%@.dae",@"T",@"XS",sizeClothes];
+
                 }
         
         NSLog(@"typeclothes  %@",typeClothes);
+        sceneTshirt = [SCNScene sceneNamed:defaultShirt];
 
             }
 
     else if (button.tag == 3) {
 
         if([gender isEqualToString:@"Male"]){
-                    typeClothes =@"dressshirtMale";
+            
+                typeClothes =@"dressshirtMale";
+                defaultShirt = [NSString stringWithFormat:@"%@%@_%@.dae",@"L",@"XS",sizeClothes];
+            
                 }else if([gender isEqualToString:@"Female"]){
+                    
                     typeClothes =@"dressshirtFemale";
+                    defaultShirt = [NSString stringWithFormat:@"%@%@_%@.dae",@"L",@"XS",sizeClothes];
+
                 }
         
         NSLog(@"typeclothes  %@",typeClothes);
+        sceneTshirt = [SCNScene sceneNamed:defaultShirt];
 
             }
+    if(nNumShirt!=0)
+        [myShirtNode removeFromParentNode];
+    myShirtNode = sceneTshirt.rootNode;
     
+    [sceneTemp.rootNode addChildNode:myShirtNode];
+    nNumShirt = 1;
+   
 }
 
 -(NSString *)showHumanModel{
@@ -173,11 +199,6 @@ NSString *shirt3;
         sizeClothes = @"SMM";
     }
     }else{
-//        if([ch isEqualToString:@"M"]||[ch isEqualToString:@"X"]){
-//            sizeClothes = @"XLF";
-//        }else{
-//            sizeClothes = @"SMF";
-//        }
         
         if([ch isEqualToString:@"XL"]){
             sizeClothes = @"XLF";
@@ -196,6 +217,7 @@ NSString *shirt3;
 - (IBAction)xsbtn:(id)sender {
     if([typeClothes length]<=0){
         if([gender isEqualToString:@"Male"]){
+            
             typeClothes = @"shortshirtMale";
         }else if([gender isEqualToString:@"Female"]){
             typeClothes = @"shortshirtFemale";

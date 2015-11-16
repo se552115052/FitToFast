@@ -110,7 +110,7 @@ NSString *productQr =@"";
             [_lblStatus performSelectorOnMainThread:@selector(setText:) withObject:[metadataObj stringValue] waitUntilDone:NO];
             
             [self performSelectorOnMainThread:@selector(stopReading) withObject:nil waitUntilDone:NO];
-            [_bbitemStart performSelectorOnMainThread:@selector(setTitle:) withObject:@"Start!" waitUntilDone:NO];
+            [_bbitemStart performSelectorOnMainThread:@selector(setTitle:) withObject:@"Scan" waitUntilDone:NO];
             
             _isReading = NO;
             

@@ -33,6 +33,8 @@
     NSString *clothModel;
     NSString *strShirtNameSelected;
     
+    NSString *defaultShirt;
+    
     NSMutableArray *myData;
     NSDictionary *dic;
     NSString *typeId;

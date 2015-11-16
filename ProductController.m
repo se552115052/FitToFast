@@ -1,4 +1,10 @@
-
+//
+//  ProductController.m
+//  FitToFast
+//
+//  Created by Pimpaporn Chaichompoo on 11/16/15.
+//  Copyright © 2015 Pimpaporn Chaichompoo. All rights reserved.
+//
 
 #import "ProductController.h"
 NSString *productID = @"";
@@ -19,17 +25,18 @@ NSString *productID = @"";
 @synthesize dataL;
 @synthesize dataXl;
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
-    
     [self receiveData];
 }
 
--(NSString *)receiveData{
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
+-(NSString *)receiveData{
+    
     NSString *re;
     productID = [self.productDetail objectForKey:@"typeId"];
     
@@ -41,21 +48,16 @@ NSString *productID = @"";
     UIImage *img = [[UIImage alloc]initWithData:data];
     
     dataImage.image = img;
-
     
-    self.dataXs.text = [self.productDetail objectForKey:@"XS"];
-    self.dataS.text = [self.productDetail objectForKey:@"S"];
-    self.dataM.text = [self.productDetail objectForKey:@"M"];
-    self.dataL.text = [self.productDetail objectForKey:@"L"];
-    self.dataXl.text = [self.productDetail objectForKey:@"XL"];
-
+    
+        self.dataXs.text = [self.productDetail objectForKey:@"XS"];
+        self.dataS.text = [self.productDetail objectForKey:@"S"];
+        self.dataM.text = [self.productDetail objectForKey:@"M"];
+        self.dataL.text = [self.productDetail objectForKey:@"L"];
+        self.dataXl.text = [self.productDetail objectForKey:@"XL"];
+    
     return re;
     
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 

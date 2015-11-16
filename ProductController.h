@@ -1,11 +1,18 @@
-
+//
+//  ProductController.h
+//  FitToFast
+//
+//  Created by Pimpaporn Chaichompoo on 11/16/15.
+//  Copyright © 2015 Pimpaporn Chaichompoo. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
 @interface ProductController : UIViewController
 
 @property (strong, nonatomic) NSDictionary *productDetail;
-@property (weak, nonatomic) IBOutlet UILabel *dataName;
+
+@property (nonatomic, strong) IBOutlet UILabel *dataName;
 @property (weak, nonatomic) IBOutlet UITextView *dataDetail;
 @property (weak, nonatomic) IBOutlet UILabel *dataPrice;
 @property (strong, nonatomic) IBOutlet UIImageView *dataImage;
@@ -17,6 +24,8 @@
 
 extern NSString *productID;
 
+
 -(NSString *)receiveData;
+
 
 @end

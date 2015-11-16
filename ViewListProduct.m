@@ -1,29 +1,31 @@
-
+//
+//  ViewListProduct.m
+//  FitToFast
+//
+//  Created by Pimpaporn Chaichompoo on 11/16/15.
+//  Copyright © 2015 Pimpaporn Chaichompoo. All rights reserved.
+//
 
 #import "ViewListProduct.h"
-#import "ViewController.h"
 #import "ProductController.h"
-#import "ClothModelController.h"
 
 @interface ViewListProduct ()
 
 @end
 
-@implementation ViewListProduct
-@synthesize sendDataTable;
+@implementation ViewListProduct    
 
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-        NSIndexPath *indexPath = [self.sendDataTable indexPathForSelectedRow];
-        ProductController *detailViewController = (ProductController *)segue.destinationViewController;
-        detailViewController.productDetail = [myObject objectAtIndex:indexPath.row];
-    
+@synthesize tableView;
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showRecipeDetail"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        ProductController *destViewController = segue.destinationViewController;
+        destViewController.productDetail = [myObject objectAtIndex:indexPath.row];
     }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
     typeId = @"typeId";
     Name = @"Name";
     Details = @"Details";
@@ -35,7 +37,6 @@
     M = @"M";
     L  = @"L";
     XL = @"XL";
-    
     myObject=[[NSMutableArray alloc]init];
     NSData *jsonSource =[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://fittofast.mrrkh.com/viewProduct.php"]];
     
@@ -72,17 +73,7 @@
         
         [myObject addObject:dictionary];
     }
-    
-    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backPressed:)];
-    self.navigationItem.leftBarButtonItem = btn;
-    
-}
 
--(void)backPressed: (id)sender
-{
-    NSString *gotomain = @"mainView";
-    ViewController *m   = (ViewController *)[self.storyboard instantiateViewControllerWithIdentifier:gotomain];
-    [self presentViewController:m animated:NO completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -92,10 +83,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return myObject.count;
+    return [myObject count];
 }
-
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -109,10 +98,10 @@
     
     NSDictionary *tmpDict = [myObject objectAtIndex:indexPath.row];
     
-//    NSMutableString *type;
-//    type = [NSMutableString stringWithFormat:@"%@",
-//            [tmpDict objectForKeyedSubscript:typeId]];
-//    
+    NSMutableString *type;
+    type = [NSMutableString stringWithFormat:@"%@",
+            [tmpDict objectForKeyedSubscript:typeId]];
+    
     NSMutableString *name;
     name = [NSMutableString stringWithFormat:@"%@",
             [tmpDict objectForKeyedSubscript:Name]];
@@ -121,30 +110,30 @@
     detail = [NSMutableString stringWithFormat:@"Details: %@ ",
               [tmpDict objectForKey:Details]];
     
-//    NSMutableString *price;
-//    price = [NSMutableString stringWithFormat:@"Price: %@ ",
-//             [tmpDict objectForKey:Price]];
-//    
-//    NSMutableString *images;
-//    images = [NSMutableString stringWithFormat:@"%@ ",
-//              [tmpDict objectForKey:Image]];
-//    
-//    NSMutableString *xs;
-//    xs = [NSMutableString stringWithFormat:@"XS: %@ ",
-//          [tmpDict objectForKey:XS]];
-//    NSMutableString *s;
-//    s = [NSMutableString stringWithFormat:@"S: %@ ",
-//         [tmpDict objectForKey:S]];
-//    NSMutableString *m;
-//    m = [NSMutableString stringWithFormat:@"M: %@ ",
-//         [tmpDict objectForKey:M]];
-//    NSMutableString *l;
-//    l = [NSMutableString stringWithFormat:@"L: %@ ",
-//         [tmpDict objectForKey:L]];
-//    NSMutableString *xl;
-//    xl = [NSMutableString stringWithFormat:@"XL: %@ ",
-//          [tmpDict objectForKey:XL]];
-//    
+    NSMutableString *price;
+    price = [NSMutableString stringWithFormat:@"Price: %@ ",
+             [tmpDict objectForKey:Price]];
+    
+    NSMutableString *images;
+    images = [NSMutableString stringWithFormat:@"%@ ",
+              [tmpDict objectForKey:Image]];
+    
+    NSMutableString *xs;
+    xs = [NSMutableString stringWithFormat:@"XS: %@ ",
+          [tmpDict objectForKey:XS]];
+    NSMutableString *s;
+    s = [NSMutableString stringWithFormat:@"S: %@ ",
+         [tmpDict objectForKey:S]];
+    NSMutableString *m;
+    m = [NSMutableString stringWithFormat:@"M: %@ ",
+         [tmpDict objectForKey:M]];
+    NSMutableString *l;
+    l = [NSMutableString stringWithFormat:@"L: %@ ",
+         [tmpDict objectForKey:L]];
+    NSMutableString *xl;
+    xl = [NSMutableString stringWithFormat:@"XL: %@ ",
+          [tmpDict objectForKey:XL]];
+    
     NSURL *url = [NSURL URLWithString:[tmpDict objectForKey:Image]];
     NSData *data = [NSData dataWithContentsOfURL:url];
     UIImage *img = [[UIImage alloc]initWithData:data];
