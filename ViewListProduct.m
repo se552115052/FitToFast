@@ -8,7 +8,7 @@
 
 #import "ViewListProduct.h"
 #import "ProductController.h"
-
+#import "ViewController.h"
 @interface ViewListProduct ()
 
 @end
@@ -73,7 +73,14 @@
         
         [myObject addObject:dictionary];
     }
-
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backPressed:)];
+    self.navigationItem.leftBarButtonItem = btn;
+}
+-(void)backPressed: (id)sender
+{
+    NSString *gotomain = @"mainView";
+    ViewController *m   = (ViewController *)[self.storyboard instantiateViewControllerWithIdentifier:gotomain];
+    [self presentViewController:m animated:NO completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
