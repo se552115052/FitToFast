@@ -45,6 +45,7 @@
     
 }
 
+@property (strong, nonatomic) id resultQrProduct;
 
 
 

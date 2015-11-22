@@ -134,7 +134,9 @@ NSString *productQr =@"";
         productQr = result;
         
         QrProductController *productScene = [self.storyboard instantiateViewControllerWithIdentifier:@"productQR"];
-        
+       
+         productScene.resultQrProduct = result;
+
         [self presentViewController:productScene animated:NO completion:NULL];
         
     }

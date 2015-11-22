@@ -13,7 +13,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSString *qrDataProduct = [self.resultQrProduct description];
 
+    NSLog(@"qrDataProduct %@",qrDataProduct);
+    
     pId = @"pId";
     typeId = @"typeId";
     Name = @"Name";
@@ -31,7 +35,7 @@
     NSLog(@" productQr  %@ ",productQr);
 
     myObject=[[NSMutableArray alloc]init];
-    NSString *urlUser = [NSString stringWithFormat:@"http://fittofast.mrrkh.com/viewEachProduct.php?uu=%@",productQr];
+    NSString *urlUser = [NSString stringWithFormat:@"http://fittofast.mrrkh.com/viewEachProduct.php?uu=%@",qrDataProduct];
     
     NSData *jsonSource =[NSData dataWithContentsOfURL:[NSURL URLWithString:urlUser]];
     
@@ -89,7 +93,9 @@
     l.text = l_data;
     xl.text = xl_data;
     
-}
+    
+    }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
