@@ -4,6 +4,7 @@
 #import "LoginController.h"
 #import "ModelGenderController.h"
 #import "HumanController.h"
+#import "SQLClient.h"
 
 @interface ViewController ()
 
@@ -26,61 +27,47 @@
 
 - (IBAction)generateBtn:(id)sender {
     
-    //check username with size
-    userId = @"userId";
-    username = @"username";
-    gender = @"gender";
-    shoulderSize = @"shoulderSize";
-    bustSize = @"bustSize";
-    hipSize = @"hipSize";
     
-    NSLog(@" username  %@ ",session_username);
+    SQLClient* client = [SQLClient sharedInstance];
+    client.delegate = self;
     
-    myObject=[[NSMutableArray alloc]init];
-    NSString *urlUser = [NSString stringWithFormat:@"http://fittofast.mrrkh.com/viewUserModel.php?uu=%@",session_username];
-    
-    NSData *jsonSource =[NSData dataWithContentsOfURL:[NSURL URLWithString:urlUser]];
-    
-    
-    id jsonObjects = [NSJSONSerialization JSONObjectWithData:jsonSource options:NSJSONReadingMutableContainers error:nil];
-    
-    for(NSDictionary *dataDict in jsonObjects){
+    [client connect:@"168.1.83.153:780" username:@"SukinoSenze_Athena" password:@"AthenaRanking!" database:@"SukinoSenze_Athena" completion:^(BOOL success) {
         
-        userid_data = [dataDict objectForKey:@"userId"];
-        username_data = [dataDict objectForKey:@"username"];
-        gender_data = [dataDict objectForKey:@"gender"];
-        shoulderSize_data = [dataDict objectForKey:@"shoulderSize"];
-        bustSize_data = [dataDict objectForKey:@"bustSize"];
-        hipSize_data = [dataDict objectForKey:@"hipSize"];
+        if (success)
+            
+        {
+            NSString *account = [NSString stringWithFormat:@"SELECT * FROM models  WHERE username = '%@'",session_username];
+            
+            NSLog(@" account %@",account);
+            
+            [client execute:account completion:^(NSArray* results) {
+                     
+                //มากกว่าคือ มี
+                if([[results objectAtIndex:0] count]>0){
+                    NSLog(@"not null ");
+                    
+                    HumanController *humanController= [self.storyboard instantiateViewControllerWithIdentifier:@"qrHuman"];
+                    [self presentModalViewController:humanController animated:NO];
+                    
+                }else{
+                    NSLog(@" null ");
+                    ModelGenderController *modelGender= [self.storyboard instantiateViewControllerWithIdentifier:@"genderModel"];
+                    [self presentModalViewController:modelGender animated:NO];
+                  
+                }
+                
+                
+                
+                [client disconnect];
+                
+            }];
+            
+        }else{
+            
+        }    [NSThread sleepForTimeInterval: 3];
         
-        dictionary = [NSDictionary dictionaryWithObjectsAndKeys:userid_data,userId,username_data,username,gender_data,gender,shoulderSize_data,shoulderSize,bustSize_data,bustSize,hipSize_data,hipSize,nil];
         
-        [myObject addObject:dictionary];
-        
-    }
-    
-    NSLog(@"userId: %@",userid_data);
-    NSLog(@"username: %@",username_data);
-    NSLog(@"gender: %@",gender_data);
-    NSLog(@"shoulder: %@",shoulderSize_data);
-    NSLog(@"bust: %@",bustSize_data);
-    NSLog(@"hip: %@",hipSize_data);
-    
-
-    if(!gender_data){
-        
-        ModelGenderController *modelGender= [self.storyboard instantiateViewControllerWithIdentifier:@"genderModel"];
-        [self presentModalViewController:modelGender animated:NO];
-        
-
-    }else{
-        
-        HumanController *humanController= [self.storyboard instantiateViewControllerWithIdentifier:@"qrHuman"];
-        [self presentModalViewController:humanController animated:NO];
-        
-    }
-    
-    
+    }];
     
 }
 

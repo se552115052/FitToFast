@@ -7,9 +7,7 @@
     
     NSString *usrname;
     NSString *password;
-    
-    NSMutableArray *myObject;
-    NSDictionary *dictionary;
+  
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *txtUsername;

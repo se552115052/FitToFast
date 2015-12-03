@@ -29,6 +29,7 @@
     
     int *intShoulder;
     int *intHip;
+    int *intBust;
     NSString *model;
     
 }

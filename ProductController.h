@@ -1,10 +1,3 @@
-//
-//  ProductController.h
-//  FitToFast
-//
-//  Created by Pimpaporn Chaichompoo on 11/16/15.
-//  Copyright © 2015 Pimpaporn Chaichompoo. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 

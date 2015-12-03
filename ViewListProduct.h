@@ -1,10 +1,4 @@
-//
-//  ViewListProduct.h
-//  FitToFast
-//
-//  Created by Pimpaporn Chaichompoo on 11/16/15.
-//  Copyright © 2015 Pimpaporn Chaichompoo. All rights reserved.
-//
+
 
 #import <UIKit/UIKit.h>
 
@@ -24,9 +18,12 @@
     NSString *M;
     NSString *L;
     NSString *XL;
-
+    
+    
+    NSArray *product;
     
 }
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
+-(NSString *)reteiveProduct;
 
 @end

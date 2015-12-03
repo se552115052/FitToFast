@@ -5,7 +5,7 @@
 #import "ClothModelController.h"
 #import "GenerateQrCodeController.h"
 #import "LoginController.h"
-
+#import "SQLClient.h"
 
 NSString *modelText = @"";
 NSString *qrData;
@@ -396,145 +396,106 @@ NSString *qrData;
     sceneModel.scene = [SCNScene sceneNamed:result];
     NSLog(@" test %@",result);
     
-    //check คน
-  
-    userId = @"userId";
-    username = @"username";
-    genderModel = @"gender";
-    shoulderSizecheck = @"shoulderSize";
-    bustSizecheck = @"bustSize";
-    hipSizecheck = @"hipSize";
     
-    NSLog(@" username testtt before sent %@ ",session_username);
+    SQLClient* client = [SQLClient sharedInstance];
+    client.delegate = self;
     
-    myObject=[[NSMutableArray alloc]init];
-    NSString *urlUser = [NSString stringWithFormat:@"http://fittofast.mrrkh.com/viewUserModel.php?uu=%@",session_username];
-    
-    NSData *jsonSource =[NSData dataWithContentsOfURL:[NSURL URLWithString:urlUser]];
-    
-    
-    id jsonObjects = [NSJSONSerialization JSONObjectWithData:jsonSource options:NSJSONReadingMutableContainers error:nil];
-    
-    for(NSDictionary *dataDict in jsonObjects){
+    [client connect:@"168.1.83.153:780" username:@"SukinoSenze_Athena" password:@"AthenaRanking!" database:@"SukinoSenze_Athena" completion:^(BOOL success) {
         
-        userid_data = [dataDict objectForKey:@"userId"];
-        username_data = [dataDict objectForKey:@"username"];
-        gender_data = [dataDict objectForKey:@"gender"];
-        shoulderSize_data = [dataDict objectForKey:@"shoulderSize"];
-        bustSize_data = [dataDict objectForKey:@"bustSize"];
-        hipSize_data = [dataDict objectForKey:@"hipSize"];
-        NSLog([dataDict objectForKey:@"lnx"]);
-        
-        dictionary = [NSDictionary dictionaryWithObjectsAndKeys:userid_data,userId,username_data,username,gender_data,genderModel,shoulderSize_data,shoulderSizecheck,bustSize_data,bustSizecheck,hipSize_data,hipSizecheck,nil];
-        
-        [myObject addObject:dictionary];
-        
-    }
-    
-    NSLog(@"userId: %@",userid_data);
-    NSLog(@"username: %@",username_data);
-    NSLog(@"gender: %@",gender_data);
-    NSLog(@"shoulder: %@",shoulderSize_data);
-    NSLog(@"bust: %@",bustSize_data);
-    NSLog(@"hip: %@",hipSize_data);
-    
-    
-//ถ้าค่า ว่าง
-    if(!gender_data){
-        NSLog(@"inserttt");
-    NSLog(@"session username %@",session_username);
-    NSLog(@"gender %@",gender);
-    NSLog(@"txtShoulder %d",intShoulder);
-    NSLog(@"txtBust %d",intBust);
-    NSLog(@"txtHip %d",intHip);
-
-        NSString *post =[[NSString alloc] initWithFormat:@"username=%@&gender=%@&shoulderSize=%d&bustSize=%d&hipSize=%d",session_username,gender,intShoulder,intBust,intHip];
-    
-        NSLog(@"PostData: %@",post);
-        
-        NSURL *url=[NSURL URLWithString:@"http://fittofast.mrrkh.com/insertUserModel.php"];
-        
-        NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-        
-        NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
-        
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [request setURL:url];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-        [request setHTTPBody:postData];
-                
-        NSError *error = [[NSError alloc] init];
-        NSHTTPURLResponse *response = nil;
-        NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-        
-        NSLog(@"Response code: %ld", (long)[response statusCode]);
-    
-    
-        if ([response statusCode] >= 200 && [response statusCode] < 300)
-        {
-            NSString *responseData = [[NSString alloc]initWithData:urlData encoding:NSUTF8StringEncoding];
-            NSLog(@"Response ==> %@", responseData);
-     
+        if (success)
             
-        }
-    }
- 
-    //update ถ้าช่องไซส์ไม่ว่าง   WS ผิด
-    
-    else{
-    
-        NSLog(@"update ถ้าช่องไซส์ไม่ว่าง   WS ผิด");
-        
-        NSString *post =[[NSString alloc] initWithFormat:@"username=%@&gender=%@&shoulderSize=%d&bustSize=%d&hipSize=%d",session_username,gender,intShoulder,intBust,intHip];
-  
-    NSLog(@"PostData: %@",post);
-        
-        NSString *urlUser = [NSString stringWithFormat:@"http://fittofast.mrrkh.com/updateUserModel.php?uu=%@",session_username];
-    
- //   NSURL *url=[NSURL URLWithString:@"http://fittofast.mrrkh.com/updateUserModel.php"];
-    
-        NSURL *url=[NSURL URLWithString:urlUser];
-        
-    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    
-    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:postData];
-    
-    NSError *error = [[NSError alloc] init];
-    NSHTTPURLResponse *response = nil;
-    NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    
-    NSLog(@"Response code: %ld", (long)[response statusCode]);
-    
-    
-    if ([response statusCode] >= 200 && [response statusCode] < 300)
-    {
-        NSString *responseData = [[NSString alloc]initWithData:urlData encoding:NSUTF8StringEncoding];
-        NSLog(@"Response ==> %@", responseData);
-        //
-        //            NSArray* foo = [responseData componentsSeparatedByString: @"&&"];
-        //            NSString* result = [foo objectAtIndex: 1];
-        
-        
-    }
-  
-    
+        {
+            NSString *account = [NSString stringWithFormat:@"SELECT * FROM models WHERE username = '%@'",session_username];
+            
+            NSLog(@" account %@",account);
+            
+            [client execute:account completion:^(NSArray* results) {
+                
+                NSString *status;
+                // array ทั้งหมด
+                
+                //มากกว่าคือ มี
 
-    
-NSLog(@"modelText = %@",modelText);
+                if([[results objectAtIndex:0] count]>0){
 
+                    [self updateModel:username gender:gender shoulderSize:intShoulder bustSize:intBust hipSize:intHip];
+                    
+                }else{
+                    [self insertModel:session_username gender:gender shoulderSize:intShoulder bustSize:intBust hipSize:intHip];
+                }
+                
+                
+                
+                [client disconnect];
+                
+            }];
+            
+        }else{
+            [self alertMessage:@"Sign in Failed." :@"Error!" :0];
+            
+        }    [NSThread sleepForTimeInterval: 3];
+        
+        
+    }];
+    
+    
 }
+
+-(NSString *)insertModel:(NSString *)username gender:(NSString *)gender shoulderSize:(NSInteger *)shoulderSize bustSize:(NSInteger *)bustSize hipSize:(NSInteger *)hipSize{
+  
+    NSString *test;
     
+    SQLClient* client = [SQLClient sharedInstance];
+    client.delegate = self;
+    
+    NSString *account = [NSString stringWithFormat:@"insert into models (username,gender,shoulderSize,bustSize,hipSize) values ('%@','%@','%d','%d','%d') ",session_username,gender,shoulderSize,bustSize,hipSize];
+    
+    
+    NSLog(@" account %@",account);
+    
+    
+    [client connect:@"168.1.83.153:780" username:@"SukinoSenze_Athena" password:@"AthenaRanking!" database:@"SukinoSenze_Athena" completion:^(BOOL success) {
+        
+        if (success)
+        {
+            [client execute:account completion:^(NSArray* results) {
+                
+                [client disconnect];
+                
+            }];
+        }
+    }];
+
+    
+    return test;
+}
+
+-(NSString *)updateModel:(NSString *)username gender:(NSString *)gender shoulderSize:(NSInteger *)shoulderSize bustSize:(NSInteger *)bustSize hipSize:(NSInteger *)hipSize{
+    NSString *update;
+    
+    SQLClient* client = [SQLClient sharedInstance];
+    client.delegate = self;
+    
+    NSString *account = [NSString stringWithFormat:@"update models set (gender,shoulderSize,bustSize,hipSize) values ('%@','%d','%d','%d') where username = '%@'" ,gender,shoulderSize,bustSize,hipSize,session_username];
+    
+    
+    NSLog(@" account %@",account);
+    
+    
+    [client connect:@"168.1.83.153:780" username:@"SukinoSenze_Athena" password:@"AthenaRanking!" database:@"SukinoSenze_Athena" completion:^(BOOL success) {
+        
+        if (success)
+        {
+            [client execute:account completion:^(NSArray* results) {
+                
+                [client disconnect];
+                
+            }];
+        }
+    }];
+    
+
+    return update;
 }
 
 - (void) alertMessage:(NSString *)msg :(NSString *)title :(int) tag

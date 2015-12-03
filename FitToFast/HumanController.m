@@ -5,6 +5,7 @@
 #import "HumanModelController.h"
 #import "ModelGenderController.h"
 #import "LoginController.h"
+#import "SQLClient.h"
 
 @interface HumanController ()
 
@@ -16,59 +17,111 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    NSLog(@"ok !! ");
+
     NSString *qrDataHuman = [self.resultQr description];
     
    // ถ้า qrDataHuman == null
     if(!qrDataHuman){
         
-/* วิธี นำ session_username ของคนที่loginตอนนี้
-        ไปใส่ WS แล้ว SELECT *FROM model WHERE == ของคนที่ session_username นี้ ออกมา  */
+        SQLClient* client = [SQLClient sharedInstance];
+        client.delegate = self;
         
-        userId = @"userId";
-        username = @"username";
-        gender = @"gender";
-        shoulderSize = @"shoulderSize";
-        bustSize = @"bustSize";
-        hipSize = @"hipSize";
-   
-        NSLog(@" username testtt %@ ",session_username);
-        
-        myObject=[[NSMutableArray alloc]init];
-        NSString *urlUser = [NSString stringWithFormat:@"http://fittofast.mrrkh.com/viewUserModel.php?uu=%@",session_username];
-        
-        NSData *jsonSource =[NSData dataWithContentsOfURL:[NSURL URLWithString:urlUser]];
+        [client connect:@"168.1.83.153:780" username:@"SukinoSenze_Athena" password:@"AthenaRanking!" database:@"SukinoSenze_Athena" completion:^(BOOL success) {
+            
+            if (success)
+                
+            {
+                NSString *account = [NSString stringWithFormat:@"SELECT * FROM models  WHERE username = '%@'",session_username];
+                
+                NSLog(@" account %@",account);
+                
+                [client execute:account completion:^(NSArray* results) {
+                    
+                    NSLog(@"result in human class %@",results);
+                    
+                    NSString *gender =[results valueForKey:@"gender"];
+                    NSString *shoulderSize =[results valueForKey:@"shoulderSize"];
+                    NSString *bustSize =[results valueForKey:@"bustSize"];
+                    NSString *hipSize =[results valueForKey:@"hipSize"];
+                    
 
-        
-        id jsonObjects = [NSJSONSerialization JSONObjectWithData:jsonSource options:NSJSONReadingMutableContainers error:nil];
-        
-        for(NSDictionary *dataDict in jsonObjects){
 
-            userid_data = [dataDict objectForKey:@"userId"];
-            username_data = [dataDict objectForKey:@"username"];
-            gender_data = [dataDict objectForKey:@"gender"];
-            shoulderSize_data = [dataDict objectForKey:@"shoulderSize"];
-            bustSize_data = [dataDict objectForKey:@"bustSize"];
-            hipSize_data = [dataDict objectForKey:@"hipSize"];
-            NSLog([dataDict objectForKey:@"lnx"]);
+                    NSLog(@"bustSize %@",bustSize);
+                    NSLog(@"hipSize %@",hipSize);
+       // แบบนี้ไม่ได้            intShoulder = [shoulderSize intValue];
+       //             NSLog(@"intShoulder %d",intShoulder);
+
+                    //                    [self createModelFromServer:gender intShoulder:intShoulder intHip:intHip];
+
+                    [client disconnect];
+                    
+                }];
+                
+            }else{
+                
+            }    [NSThread sleepForTimeInterval: 3];
             
-            dictionary = [NSDictionary dictionaryWithObjectsAndKeys:userid_data,userId,username_data,username,gender_data,gender,shoulderSize_data,shoulderSize,bustSize_data,bustSize,hipSize_data,hipSize,nil];
             
-            [myObject addObject:dictionary];
-            
-        }
+        }];
+     
         
-            NSLog(@"userId: %@",userid_data);
-            NSLog(@"username: %@",username_data);
-            NSLog(@"gender: %@",gender_data);
-            NSLog(@"shoulder: %@",shoulderSize_data);
-            NSLog(@"bust: %@",bustSize_data);
-            NSLog(@"hip: %@",hipSize_data);
+        // พอได้ ค่า มา ที่เป็น  array ทำให้เป็น String
+        // แล้วให้เป็น int แล้ว ส่งไปใช้ต่อ
         
-// แปลงค่าที่ get มา  ที่เป็น string ให้เป็น int แล้ว ส่งไปใช้ต่อ
-        
-        intShoulder = [shoulderSize_data intValue];
+ /*       intShoulder = [shoulderSize_data intValue];
         intHip = [hipSize_data intValue];
         [self createModelFromServer:gender_data intShoulder:intShoulder intHip:intHip];
+*/
+        
+        
+/* วิธี นำ session_username ของคนที่loginตอนนี้
+        ไปใส่ WS แล้ว SELECT *FROM model WHERE == ของคนที่ session_username นี้ ออกมา  */
+//        userId = @"userId";
+//        username = @"username";
+//        gender = @"gender";
+//        shoulderSize = @"shoulderSize";
+//        bustSize = @"bustSize";
+//        hipSize = @"hipSize";
+//   
+//        NSLog(@" username testtt %@ ",session_username);
+//        
+//        myObject=[[NSMutableArray alloc]init];
+//        NSString *urlUser = [NSString stringWithFormat:@"http://fittofast.mrrkh.com/viewUserModel.php?uu=%@",session_username];
+//        
+//        NSData *jsonSource =[NSData dataWithContentsOfURL:[NSURL URLWithString:urlUser]];
+//
+//        
+//        id jsonObjects = [NSJSONSerialization JSONObjectWithData:jsonSource options:NSJSONReadingMutableContainers error:nil];
+//        
+//        for(NSDictionary *dataDict in jsonObjects){
+//
+//            userid_data = [dataDict objectForKey:@"userId"];
+//            username_data = [dataDict objectForKey:@"username"];
+//            gender_data = [dataDict objectForKey:@"gender"];
+//            shoulderSize_data = [dataDict objectForKey:@"shoulderSize"];
+//            bustSize_data = [dataDict objectForKey:@"bustSize"];
+//            hipSize_data = [dataDict objectForKey:@"hipSize"];
+//            NSLog([dataDict objectForKey:@"lnx"]);
+//            
+//            dictionary = [NSDictionary dictionaryWithObjectsAndKeys:userid_data,userId,username_data,username,gender_data,gender,shoulderSize_data,shoulderSize,bustSize_data,bustSize,hipSize_data,hipSize,nil];
+//            
+//            [myObject addObject:dictionary];
+//            
+//        }
+//        
+//            NSLog(@"userId: %@",userid_data);
+//            NSLog(@"username: %@",username_data);
+//            NSLog(@"gender: %@",gender_data);
+//            NSLog(@"shoulder: %@",shoulderSize_data);
+//            NSLog(@"bust: %@",bustSize_data);
+//            NSLog(@"hip: %@",hipSize_data);
+        
+//// แปลงค่าที่ get มา  ที่เป็น string ให้เป็น int แล้ว ส่งไปใช้ต่อ
+//        
+//        intShoulder = [shoulderSize_data intValue];
+//        intHip = [hipSize_data intValue];
+//        [self createModelFromServer:gender_data intShoulder:intShoulder intHip:intHip];
     }
     
     else{
@@ -87,6 +140,8 @@
 
 -(void)createModelFromServer:(NSString *)modelGen intShoulder:(NSInteger *)intShoulder intHip:(NSInteger *)intHip{
     //Male
+
+    NSLog(@" เข้า ");
     
     if([modelGen isEqual: @"Male"]){
         if(14<=intShoulder&&intShoulder<=15){

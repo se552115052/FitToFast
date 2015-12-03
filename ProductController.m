@@ -1,10 +1,4 @@
-//
-//  ProductController.m
-//  FitToFast
-//
-//  Created by Pimpaporn Chaichompoo on 11/16/15.
-//  Copyright © 2015 Pimpaporn Chaichompoo. All rights reserved.
-//
+
 
 #import "ProductController.h"
 NSString *productID = @"";

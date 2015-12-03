@@ -51,6 +51,10 @@ extern NSString *modelText;
 -(NSString *)generateHumanModel;
 -(void)model:(NSString *)modelGen intS:(NSInteger *)intSh intH:(NSInteger *)intH;
 -(void)createModelFromQR:(NSString *)modeldata;
+-(void)model:(NSString *)modelGen intS:(NSInteger *)intSh intH:(NSInteger *)intH;
+
+-(NSString *)insertModel:(NSString *)username gender:(NSString *)gender shoulderSize:(NSInteger *)shoulderSize bustSize:(NSInteger *)bustSize hipSize:(NSInteger *)hipSize;
+-(NSString *)updateModel:(NSString *)username gender:(NSString *)gender shoulderSize:(NSInteger *)shoulderSize bustSize:(NSInteger *)bustSize hipSize:(NSInteger *)hipSize;
 
 
 @property (weak, nonatomic) IBOutlet UITextField *shoulderSize;

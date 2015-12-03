@@ -1,6 +1,8 @@
 
 #import "RegistrationController.h"
 #import "LoginController.h"
+#import "SQLClient.h"
+
 @interface RegistrationController ()
 
 @end
@@ -25,15 +27,79 @@
 
 - (NSString *)insertUser{
     
+    NSString *result;
     NSLog(@"ok" );
-    NSInteger success = 0;
-    NSString *re;
+    
+    
+    if([[self->txtPassword text] isEqualToString: ([self->txtRePassword text]) ]) {
+
+        
+        SQLClient* client = [SQLClient sharedInstance];
+        client.delegate = self;
+        
+        [client connect:@"168.1.83.153:780" username:@"SukinoSenze_Athena" password:@"AthenaRanking!" database:@"SukinoSenze_Athena" completion:^(BOOL success) {
+            
+            if (success)
+                
+            {
+                NSString *account = [NSString stringWithFormat:@"SELECT * FROM UsersForMobiles WHERE username = '%@'",txtUsername.text];
+                
+                NSLog(@" account %@",account);
+                
+                [client execute:account completion:^(NSArray* results) {
+                    
+                    NSString *status;
+                    // array ทั้งหมด
+                    
+                    if([[results objectAtIndex:0] count]>0){
+                        
+                        [self alertStatus:@"Username already exists " :@"Form is invalid" :0];
+            
+                    }else{
+                        [self insertDB:txtUsername.text password:txtPassword.text fname:txtFirstname.text lname:txtLastname.text];
+
+                    }
+                    
+                    
+                    
+                    [client disconnect];
+                    
+                }];
+                
+            }else{
+                [self alertStatus:@"Sign in Failed." :@"Error!" :0];
+                
+            }    [NSThread sleepForTimeInterval: 3];
+            
+            
+        }];
+
+        
+        
+        
+        //
+        
+//        [self insertDB:txtUsername.text password:txtPassword.text fname:txtFirstname.text lname:txtLastname.text];
+    }
+    else{
+        [self alertStatus:@"Password doesn't match confirmation" :@"Form is invalid" :0];
+    }
+    
+    //  }
+//    else{
+//    [self alertStatus:@"Username already exists " :@"Form is invalid" :0];
+//}
+
+
+////////อันเก่า
+
+/*    NSInteger success = 0;
     @try {
         
             NSString *txtStatus = @"customer";
             
             NSLog(@"cusss %@",txtStatus);
-            
+ 
             NSString *post =[[NSString alloc] initWithFormat:@"username=%@",[self->txtUsername text]];
             NSLog(@"PostData: %@",post);
             
@@ -139,10 +205,46 @@
     if (success) {
         [self performSegueWithIdentifier:@"login_success" sender:self];
     }
+ */
     
-    return re;
+    return result;
     
 }
+-(void)insertDB:(NSString *)username password:(NSString *)password fname:(NSString *)fname lname:(NSString *)lname{
+
+    
+    SQLClient* client = [SQLClient sharedInstance];
+    client.delegate = self;
+    
+    
+    NSString *account = [NSString stringWithFormat:@"insert into UsersForMobiles (username,password,fname,lname) values ('%@','%@','%@','%@') ",username,password,fname,lname];
+
+    
+    NSLog(@" account %@",account);
+    
+    
+    [client connect:@"168.1.83.153:780" username:@"SukinoSenze_Athena" password:@"AthenaRanking!" database:@"SukinoSenze_Athena" completion:^(BOOL success) {
+        
+        if (success)
+        {
+            //////// เปลี่ยน เป็นรับมาจากตัวแปร
+            [client execute:account completion:^(NSArray* results) {
+                
+
+                LoginController *login= [self.storyboard instantiateViewControllerWithIdentifier:@"loginscene"];
+                [self presentModalViewController:login animated:NO];
+
+                
+                [client disconnect];
+                
+            }];
+            
+        }
+        
+    }];
+    
+}
+
 
 - (void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag
 {

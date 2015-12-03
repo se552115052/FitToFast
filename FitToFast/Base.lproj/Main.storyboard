@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="f1e-u9-rpW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="f1e-u9-rpW">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -153,7 +152,7 @@
                                         </tableViewCellContentView>
                                         <animations/>
                                         <connections>
-                                            <segue destination="ZBa-L1-6n7" kind="push" identifier="showRecipeDetail" animates="NO" id="Wi8-ew-4lf"/>
+                                            <segue destination="ZBa-L1-6n7" kind="push" identifier="showRecipeDetail" id="Wi8-ew-4lf"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -2111,7 +2110,7 @@
                                     <segue destination="f1e-u9-rpW" kind="modal" animates="NO" id="tsk-GE-s0u"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Model " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YzH-uz-yEh">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Model " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YzH-uz-yEh">
                                 <rect key="frame" x="134" y="48" width="53" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -2247,10 +2246,15 @@
         <image name="male.png" width="249" height="250"/>
         <image name="selectGender.jpg" width="640" height="1136"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="SRg-Yd-M48"/>
-        <segue reference="0zc-gp-ALm"/>
-        <segue reference="fA8-bg-POO"/>
+        <segue reference="tsk-GE-s0u"/>
+        <segue reference="Xhz-rY-9ed"/>
+        <segue reference="rK1-13-ptc"/>
         <segue reference="Nfb-vu-N9n"/>
         <segue reference="VjT-jx-ggW"/>
     </inferredMetricsTieBreakers>
